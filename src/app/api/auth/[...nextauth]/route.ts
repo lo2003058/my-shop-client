@@ -29,7 +29,8 @@ const handler = NextAuth({
             const token = response.data.token;
             return {
               id: customer.id,
-              name: customer.name,
+              firstName: customer.firstName,
+              lastName: customer.lastName,
               email: customer.email,
               points: customer.points,
               tier: customer.tier,
@@ -52,9 +53,11 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as number;
         token.points = user.points;
         token.tier = user.tier;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
         token.token = user.token; // JWT token from backend
       }
       return token;
@@ -62,9 +65,11 @@ const handler = NextAuth({
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as number;
-        (session.user as any).points = token.points as number;
-        (session.user as any).tier = token.tier as string;
-        (session as any).accessToken = token.token;
+        session.user.points = token.points as number;
+        session.user.tier = token.tier as string;
+        session.user.firstName = token.firstName as string;
+        session.user.lastName = token.lastName as string;
+        session.accessToken = token.token;
       }
       return session;
     },

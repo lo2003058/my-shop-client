@@ -5,11 +5,10 @@ import React, { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUser,
   faShoppingCart,
   faBars,
-  faTimes, faHeart,
-} from '@fortawesome/free-solid-svg-icons';
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Image from "next/image";
@@ -68,11 +67,11 @@ export default function Header() {
           <Link href="/">
             <span className="sr-only">Yin Company</span>
             <Image
-              src={"/images/pepe.png"}
+              src={"/images/happy-pepe.png"}
               alt={"Yin Company"}
-              className="h-12 w-auto"
-              width={48}
-              height={48}
+              className="h-16 w-auto"
+              width={64}
+              height={64}
             />
           </Link>
         </div>
@@ -88,23 +87,22 @@ export default function Header() {
             {/* Optionally Display User Avatar */}
             {session?.user.image ? (
               <Image
-                src={session.user.image}
-                alt={session.user.name || "User Avatar"}
+                src={session.user.image || "/images/default-avatar.png"}
+                alt={session.user.firstName || "User Avatar"}
                 className="h-6 w-6 rounded-full object-cover"
-                width={24}
-                height={24}
+                width={32}
+                height={32}
               />
             ) : (
-              <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
+              <Image
+                src={"/images/default-avatar.png"}
+                alt={"User Avatar"}
+                className="h-10 w-10 rounded-full object-cover border-2 border-gray-600 bg-gray-100"
+                width={32}
+                height={32}
+              />
+              // <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
             )}
-          </Link>
-
-          <Link
-            href="/wishlist"
-            className="relative text-gray-900 hover:text-gray-700 flex items-center"
-            aria-label="Wishlist"
-          >
-            <FontAwesomeIcon icon={faHeart} className="h-6 w-6" />
           </Link>
 
           {/* Cart Icon with Badge */}
@@ -135,11 +133,11 @@ export default function Header() {
             <Link href="/" className="-m-1.5 p-1.5">
               <span className="sr-only">Yin Company</span>
               <Image
-                src={"/images/pepe.png"}
+                src={"/images/happy-pepe.png"}
                 alt={"Yin Company"}
                 className="h-12 w-auto"
-                width={48}
-                height={48}
+                width={64}
+                height={64}
               />
             </Link>
 
@@ -178,14 +176,21 @@ export default function Header() {
                   {/* Optionally Display User Avatar */}
                   {session?.user.image ? (
                     <Image
-                      src={session.user.image}
-                      alt={session.user.name || "User Avatar"}
+                      src={session.user.image || "/images/default-avatar.png"}
+                      alt={session.user.firstName || "User Avatar"}
                       className="h-6 w-6 rounded-full object-cover"
-                      width={24}
-                      height={24}
+                      width={32}
+                      height={32}
                     />
                   ) : (
-                    <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
+                    <Image
+                      src={"/images/default-avatar.png"}
+                      alt={"User Avatar"}
+                      className="h-10 w-10 rounded-full object-cover border-2 border-gray-600 bg-gray-100"
+                      width={32}
+                      height={32}
+                    />
+                    // <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
                   )}
                 </Link>
 

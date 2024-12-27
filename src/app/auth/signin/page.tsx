@@ -3,7 +3,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -16,12 +16,9 @@ const SignInPage = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignInFormData>();
-  const [serverError, setServerError] = useState<string | null>(null);
   const router = useRouter();
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
-    setServerError(null);
-
     try {
       const res = await signIn("credentials", {
         redirect: false,
@@ -34,12 +31,12 @@ const SignInPage = () => {
           icon: "error",
           title: "Sign In Error",
           text: res.error || "An error occurred during sign in",
-          position: "top-end",
+          position: "center",
           timer: 1500,
         });
       } else {
         await Swal.fire({
-          position: "top-end",
+          position: "center",
           icon: "success",
           text: `Welcome back, ${data.email}!`,
           showConfirmButton: false,
@@ -50,7 +47,7 @@ const SignInPage = () => {
     } catch (err: any) {
       // console.error("Login error:", err.response?.data || err.message);
       await Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "error",
         title: "Sign In Error",
         text: err.response?.data?.error || "An error occurred during sign in",
@@ -87,7 +84,7 @@ const SignInPage = () => {
                 },
               })}
               placeholder="Enter your email"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              className={`text-black w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.email
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-green-500"
@@ -116,7 +113,7 @@ const SignInPage = () => {
                 },
               })}
               placeholder="Enter your password"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              className={`text-black w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.password
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-green-500"
@@ -142,7 +139,7 @@ const SignInPage = () => {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600">
-            Don't have an account?{" "}
+            Don&#39;t have an account?{" "}
             <Link href="/auth/signup" className="text-blue-500 hover:underline">
               Sign Up
             </Link>

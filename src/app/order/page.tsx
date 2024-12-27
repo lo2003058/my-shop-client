@@ -6,23 +6,9 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
-  faBox,
-  faUser,
-  faAddressBook,
 } from "@fortawesome/free-solid-svg-icons";
-import { SecondaryNavigationItem } from "@/types/customer/types";
 import SecondaryNavigation from "@/components/account/secondaryNavigation";
-
-const secondaryNavigation: SecondaryNavigationItem[] = [
-  { name: "General", href: "/account", current: false, icon: faUser },
-  { name: "Order", href: "/order", current: true, icon: faBox },
-  {
-    name: "Address",
-    href: "/account/address",
-    current: false,
-    icon: faAddressBook,
-  },
-];
+import { secondaryNavigationRoute } from '@/config/secondaryNavigationRoute';
 
 const CustomerOrder: React.FC = () => {
   const { data: session, status } = useSession();
@@ -52,10 +38,14 @@ const CustomerOrder: React.FC = () => {
     <div className="bg-white">
       <div className={`mx-auto max-w-7xl pt-16 lg:flex lg:gap-x-16 lg:px-8`}>
         {/* Secondary Navigation */}
-        <SecondaryNavigation navigationItems={secondaryNavigation} />
+        <SecondaryNavigation navigationItems={secondaryNavigationRoute} />
 
         {/* Main Content */}
-        <main className="flex-1 p-6 lg:p-8">here for customer order</main>
+        <main className="flex-1 p-6 lg:p-8">
+          <p> here for customer order</p>
+
+
+        </main>
       </div>
     </div>
   );

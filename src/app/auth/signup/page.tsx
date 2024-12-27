@@ -31,7 +31,7 @@ const SignUpPage = () => {
           Swal.fire({
             icon: "success",
             text: "Registration successful! Please sign in to continue.",
-            position: "top-end",
+            position: "center",
             timer: 1500,
           }).then(() => {
             router.push("/auth/signin");
@@ -80,7 +80,7 @@ const SignUpPage = () => {
                 },
               })}
               placeholder="Enter your email"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              className={`text-black w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.email
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
@@ -109,7 +109,7 @@ const SignUpPage = () => {
                 },
               })}
               placeholder="Enter a strong password"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              className={`text-black w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.password
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"
@@ -139,7 +139,7 @@ const SignUpPage = () => {
                   value === password || "Passwords do not match",
               })}
               placeholder="Re-enter your password"
-              className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+              className={`text-black w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
                 errors.confirmPassword
                   ? "border-red-500 focus:ring-red-500"
                   : "border-gray-300 focus:ring-blue-500"

@@ -53,7 +53,7 @@ const ProductPage: React.FC = () => {
         icon: "error",
         title: "Limit Reached",
         text: `You can only add up to ${MAX_QUANTITY} of this item.`,
-        position: "top-end",
+        position: "center",
         timer: 1500,
       });
       return;
