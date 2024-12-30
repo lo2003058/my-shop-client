@@ -29,6 +29,24 @@ export const GET_CUSTOMER = gql`
   }
 `;
 
+export const GET_CUSTOMER_ADDRESS = gql`
+  query GetCustomerAddress($id: Int!) {
+      customer(id: $id) {
+          id
+          email
+          customerAddress {
+              id
+              address
+              city
+              state
+              zip
+              country
+              isDefault
+          }
+      }
+  }
+`;
+
 export const GET_CUSTOMERS = gql`
   query GetCustomers {
     customers {

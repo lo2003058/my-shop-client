@@ -10,15 +10,15 @@ const httpLink = new HttpLink({
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message, locations, path }) =>
-      console.error(
+      console.log(
         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
       ),
     );
-  if (networkError) console.error(`[Network error]: ${networkError}`);
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 // Initialize Apollo Client
 export const apolloClient = new ApolloClient({
-  link: from([errorLink, httpLink]),
+  link: from([httpLink, errorLink]),
   cache: new InMemoryCache(),
 });

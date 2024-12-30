@@ -113,7 +113,7 @@ export default function Header() {
           >
             <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
             {totalItems > 0 && (
-              <span className="absolute -top-4 -right-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+              <span className="absolute -top-1 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
                 {totalItems > 99 ? "99+" : totalItems}
               </span>
             )}
@@ -202,7 +202,7 @@ export default function Header() {
                 >
                   <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
                   {totalItems > 0 && (
-                    <span className="absolute -top-4 -right-4 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                    <span className="absolute -top-4 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
                       {totalItems > 99 ? "99+" : totalItems}
                     </span>
                   )}

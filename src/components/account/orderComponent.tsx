@@ -3,7 +3,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/components/common/loadingComponent";
 
-const OrderComponent: React.FC = () => {
+interface OrderComponentProps {
+  customerOrder?: {
+    id: number;
+    orderNumber: string;
+  }[];
+}
+
+const OrderComponent: React.FC<OrderComponentProps> = ({ customerOrder }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -17,9 +24,24 @@ const OrderComponent: React.FC = () => {
   }
 
   return (
-    <>
-      this is the order component
-    </>
+    <div className={`h-screen`}>
+      <div>
+        <h2 className="text-2xl font-bold text-black">Order</h2>
+      </div>
+      <div className={`text-black`}>
+        {customerOrder && customerOrder.length > 0 ? (
+          <>
+            {customerOrder.map((order) => (
+              <div key={order.id} className="border p-4 my-4">
+                <p className="text-lg font-semibold">{order.orderNumber}</p>
+              </div>
+            ))}
+          </>
+        ) : (
+          <p className={`text-black`}>No order found.</p>
+        )}
+      </div>
+    </div>
   );
 };
 

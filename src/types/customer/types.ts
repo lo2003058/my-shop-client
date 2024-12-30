@@ -40,3 +40,6 @@ export interface GetCustomer {
   customer: Customer;
 }
 
+export interface GetCustomerAddress {
+  customerAddress: CustomerAddress[];
+}

@@ -1,3 +1,5 @@
+"use client"; // <-- important for any file that uses `useQuery`
+
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,14 +9,13 @@ import { GET_PRODUCTS } from "@/graphql/products/queries";
 
 const RecommendProduct: React.FC = () => {
   const { loading, error, data } = useQuery<GetProducts>(GET_PRODUCTS, {
-    variables: { limit: 4 }, // Fetch 4 products
+    variables: { limit: 4 }, // For example, fetch 4 products
   });
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
   if (!data || data.products.length === 0) return <p>No products found.</p>;
 
-  // Ensure you have exactly 4 products. If not, handle accordingly.
   const recommendProducts: Product[] = data.products.slice(0, 4);
 
   return (
@@ -30,14 +31,11 @@ const RecommendProduct: React.FC = () => {
           </h2>
 
           <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {recommendProducts.map((recommendProduct) => (
-              <div key={recommendProduct.id} className="group relative">
+            {recommendProducts.map((product) => (
+              <div key={product.id} className="group relative">
                 <Image
-                  alt={recommendProduct.name}
-                  src={
-                    recommendProduct.imageUrl ||
-                    "https://via.placeholder.com/150"
-                  }
+                  alt={product.name}
+                  src={product.imageUrl || "https://via.placeholder.com/150"}
                   width={300}
                   height={300}
                   priority
@@ -46,16 +44,14 @@ const RecommendProduct: React.FC = () => {
                 <div className="mt-4 flex justify-between">
                   <div>
                     <h3 className="text-sm text-gray-700">
-                      <Link href={`/product/${recommendProduct.id}`}>
+                      <Link href={`/product/${product.id}`}>
                         <span aria-hidden="true" className="absolute inset-0" />
-                        {recommendProduct.name}
+                        {product.name}
                       </Link>
                     </h3>
                   </div>
                   <p className="text-sm font-medium text-gray-900">
-                    {recommendProduct.stock
-                      ? `$${recommendProduct.price}`
-                      : "Out of stock"}
+                    {product.stock ? `$${product.price}` : "Out of stock"}
                   </p>
                 </div>
               </div>
