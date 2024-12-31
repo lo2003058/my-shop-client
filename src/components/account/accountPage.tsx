@@ -27,7 +27,7 @@ const AccountPage: React.FC = () => {
     if (status === "loading") return;
 
     if (!session) {
-      // If no session, redirect to signin
+      // If no session, redirect to sign-in
       router.push("/auth/signin");
       return;
     }
@@ -40,13 +40,15 @@ const AccountPage: React.FC = () => {
   }, [status, session, router]);
 
   // Skip the query if customerId is not yet set
-  const { loading, error, data } = useQuery<GetCustomer>(GET_CUSTOMER, {
-    variables: { id: customerId },
-    skip: !customerId,
-    context: {
-      headers: { Authorization: `Bearer ${session?.accessToken}` },
+  const { loading, error, data, refetch } = useQuery<GetCustomer>(
+    GET_CUSTOMER,
+    {
+      variables: { id: customerId },
+      context: {
+        headers: { Authorization: `Bearer ${session?.accessToken}` },
+      },
     },
-  });
+  );
 
   const [current, setCurrent] = useState("General");
 
@@ -83,7 +85,12 @@ const AccountPage: React.FC = () => {
       case "Address":
         return <AddressComponent customerAddress={customer?.customerAddress} />;
       case "Wishlist":
-        return <WishlistComponent customerWishlist={[]} />;
+        return (
+          <WishlistComponent
+            customerWishList={customer?.customerWishList}
+            refetchCustomer={refetch}
+          />
+        );
       default:
         return <GeneralComponent customer={customer} />;
     }

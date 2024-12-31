@@ -39,8 +39,8 @@ const SecondaryNavigation: React.FC<SecondaryNavigationProps> = ({
                   }}
                   className={classNames(
                     currentRoute === item.name
-                      ? "bg-gray-50 text-indigo-600"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                      ? "bg-gray-200 text-indigo-600"
+                      : "text-gray-700 hover:bg-gray-100 hover:text-indigo-600",
                     "group flex gap-x-3 rounded-md py-2 pl-2 pr-3 text-sm/6 font-semibold",
                   )}
                 >
@@ -60,7 +60,7 @@ const SecondaryNavigation: React.FC<SecondaryNavigationProps> = ({
             ))}
             <li
               key="logout"
-              className={`hover:bg-gray-50 rounded-md hover:text-indigo-600 select-none`}
+              className={`hover:bg-gray-100 rounded-md hover:text-indigo-600 select-none`}
             >
               <div
                 onClick={async () =>

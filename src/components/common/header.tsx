@@ -56,6 +56,7 @@ export default function Header() {
               key={item.name}
               href={item.href}
               className="text-sm font-semibold text-gray-900 hover:text-gray-700"
+              onClick={() => setMobileMenuOpen(false)}
             >
               {item.name}
             </Link>
@@ -69,7 +70,7 @@ export default function Header() {
             <Image
               src={"/images/happy-pepe.png"}
               alt={"Yin Company"}
-              className="h-16 w-auto"
+              className="h-16 w-auto p-1 sm:p-2"
               width={64}
               height={64}
             />
@@ -83,6 +84,7 @@ export default function Header() {
             href={session ? "/account" : "/auth/signin"}
             className="text-gray-900 hover:text-gray-700 flex items-center"
             aria-label={session ? "User" : "Sign In"}
+            onClick={() => setMobileMenuOpen(false)}
           >
             {/* Optionally Display User Avatar */}
             {session?.user.image ? (
@@ -110,6 +112,7 @@ export default function Header() {
             href="/shopping-cart"
             className="relative text-gray-900 hover:text-gray-700 flex items-center"
             aria-label="Shopping Cart"
+            onClick={() => setMobileMenuOpen(false)}
           >
             <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
             {totalItems > 0 && (
@@ -161,6 +164,7 @@ export default function Header() {
                     key={item.name}
                     href={item.href}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
+                    onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.name}
                   </Link>
@@ -172,6 +176,7 @@ export default function Header() {
                   href={session ? "/account" : "/auth/signin"}
                   className="text-gray-900 hover:text-gray-700 flex items-center"
                   aria-label={session ? "User" : "Sign In"}
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {/* Optionally Display User Avatar */}
                   {session?.user.image ? (
@@ -199,6 +204,7 @@ export default function Header() {
                   href="/shopping-cart"
                   className="relative text-gray-900 hover:text-gray-700 flex items-center"
                   aria-label="Shopping Cart"
+                  onClick={() => setMobileMenuOpen(false)}
                 >
                   <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
                   {totalItems > 0 && (

@@ -6,6 +6,7 @@ export interface Product {
   stock: number;
   isVirtual: boolean;
   imageUrl?: string;
+  isCustomerWishListed?: boolean;
 }
 
 export interface RecommendProduct {
@@ -20,6 +21,10 @@ export interface RecommendProduct {
 
 export interface GetProduct {
   product: Product;
+}
+
+export interface GetProductForClient {
+  productForClient: Product;
 }
 
 export interface GetProducts {

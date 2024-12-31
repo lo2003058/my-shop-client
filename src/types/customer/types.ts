@@ -1,5 +1,6 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { Tier } from '@/types/tier/types';
+import { Tier } from "@/types/tier/types";
+import { Product } from "@/types/product/types";
 
 export interface SecondaryNavigationItem {
   name: string;
@@ -23,6 +24,11 @@ export interface CustomerPoints {
   totalAccumulatedPoints: number;
 }
 
+export interface CustomerWishList {
+  productId: number;
+  product: Product;
+}
+
 export interface Customer {
   id: number;
   email: string;
@@ -33,7 +39,8 @@ export interface Customer {
   phone: string;
   customerPoints: CustomerPoints;
   tier: Tier;
-  customerAddress: CustomerAddress[];
+  customerAddress?: CustomerAddress[];
+  customerWishList?: CustomerWishList[];
 }
 
 export interface GetCustomer {
