@@ -28,19 +28,6 @@ export const GET_CUSTOMER = gql`
                 country
                 isDefault
             }
-            customerWishList {
-                product {
-                    id
-                    name
-                    description
-                    price
-                    stock
-                    isVirtual
-                    imageUrl
-                    createdAt
-                    updatedAt
-                }
-            }
         }
     }
 `;
@@ -61,3 +48,30 @@ export const GET_CUSTOMERS = gql`
   }
 `;
 
+export const GET_CUSTOMER_WISHLIST = gql`
+    query GetCustomerWishList($customerId: Int!, $page: Int!, $pageSize: Int!) {
+        customerWishList(customerId: $customerId, page: $page, pageSize: $pageSize) {
+            items {
+                customerId
+                productId
+                product {
+                    id
+                    name
+                    description
+                    price
+                    stock
+                    isVirtual
+                    imageUrl
+                    createdAt
+                    updatedAt
+                }
+                createdAt
+                updatedAt
+            }
+            totalCount
+            currentPage
+            pageSize
+            totalPages
+        }
+    }
+`;

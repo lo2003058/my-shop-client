@@ -40,9 +40,10 @@ const AccountPage: React.FC = () => {
   }, [status, session, router]);
 
   // Skip the query if customerId is not yet set
-  const { loading, error, data, refetch } = useQuery<GetCustomer>(
+  const { loading, error, data } = useQuery<GetCustomer>(
     GET_CUSTOMER,
     {
+      skip: !customerId,
       variables: { id: customerId },
       context: {
         headers: { Authorization: `Bearer ${session?.accessToken}` },
@@ -53,7 +54,7 @@ const AccountPage: React.FC = () => {
   const [current, setCurrent] = useState("General");
 
   // If session is loading or the query is loading, show loading spinner
-  if (status === "loading" || loading) {
+  if (status === "loading" || loading || !customerId) {
     return <LoadingComponent />;
   }
 
@@ -86,10 +87,7 @@ const AccountPage: React.FC = () => {
         return <AddressComponent customerAddress={customer?.customerAddress} />;
       case "Wishlist":
         return (
-          <WishlistComponent
-            customerWishList={customer?.customerWishList}
-            refetchCustomer={refetch}
-          />
+          <WishlistComponent customer={customer}/>
         );
       default:
         return <GeneralComponent customer={customer} />;

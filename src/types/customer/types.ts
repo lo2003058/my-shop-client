@@ -25,8 +25,19 @@ export interface CustomerPoints {
 }
 
 export interface CustomerWishList {
+  customerId: number;
   productId: number;
   product: Product;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface PaginatedWishList {
+  items: CustomerWishList[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
 }
 
 export interface Customer {
@@ -40,11 +51,14 @@ export interface Customer {
   customerPoints: CustomerPoints;
   tier: Tier;
   customerAddress?: CustomerAddress[];
-  customerWishList?: CustomerWishList[];
 }
 
 export interface GetCustomer {
   customer: Customer;
+}
+
+export interface GetCustomerWishList {
+  customerWishList?: PaginatedWishList[];
 }
 
 export interface GetCustomerAddress {
