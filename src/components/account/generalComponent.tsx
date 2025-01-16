@@ -12,7 +12,7 @@ interface GeneralComponentProps {
     id: number;
     firstName: string;
     lastName: string;
-    country_code: string;
+    countryCode: string;
     phone: string;
     tier: {
       id: number;
@@ -129,12 +129,12 @@ const GeneralComponent: React.FC<GeneralComponentProps> = ({ customer }) => {
               </div>
             </div>
             {/* Show phone number */}
-            {customer?.country_code && customer?.phone && (
+            {customer?.countryCode && customer?.phone && (
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-sm text-gray-500">Phone Number</p>
                   <p className="text-lg font-medium text-gray-800">
-                    {customer.country_code} {customer.phone}
+                    {customer.countryCode} {customer.phone}
                   </p>
                 </div>
               </div>

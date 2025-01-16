@@ -84,7 +84,7 @@ const AccountPage: React.FC = () => {
       case "Order":
         return <OrderComponent customerOrder={[]} />;
       case "Address":
-        return <AddressComponent customerAddress={customer?.customerAddress} />;
+        return <AddressComponent customer={customer}/>;
       case "Wishlist":
         return (
           <WishlistComponent customer={customer}/>

@@ -7,7 +7,7 @@ export const GET_CUSTOMER = gql`
             email
             firstName
             lastName
-            country_code
+            countryCode
             phone
             isEmailVerified
             isPhoneVerified
@@ -18,15 +18,6 @@ export const GET_CUSTOMER = gql`
             tier {
                 id
                 name
-            }
-            customerAddress {
-                id
-                address
-                city
-                state
-                zip
-                country
-                isDefault
             }
         }
     }
@@ -39,7 +30,7 @@ export const GET_CUSTOMERS = gql`
       email
       firstName
       lastName
-      country_code
+        countryCode
       phone
       isEmailVerified
       isPhoneVerified
@@ -72,6 +63,26 @@ export const GET_CUSTOMER_WISHLIST = gql`
             currentPage
             pageSize
             totalPages
+        }
+    }
+`;
+
+export const GET_CUSTOMER_ADDRESSES = gql`
+    query GetCustomerAddresses($customerId: Int!) {
+        customerAddress(customerId: $customerId) {
+            id
+            tag
+            firstName
+            lastName
+            countryCode
+            phone
+            address
+            city
+            state
+            country
+            zipCode
+            isDefault
+            customerId
         }
     }
 `;

@@ -10,12 +10,17 @@ export interface SecondaryNavigationItem {
 
 export interface CustomerAddress {
   id: number;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  countryCode: string;
   address: string;
   city: string;
   state: string;
-  zip: string;
+  zipCode: string;
   country: string;
   isDefault: boolean;
+  customerId: number;
 }
 
 export interface CustomerPoints {
@@ -46,7 +51,7 @@ export interface Customer {
   password: string;
   firstName: string;
   lastName: string;
-  country_code: string;
+  countryCode: string;
   phone: string;
   customerPoints: CustomerPoints;
   tier: Tier;
@@ -62,5 +67,5 @@ export interface GetCustomerWishList {
 }
 
 export interface GetCustomerAddress {
-  customerAddress: CustomerAddress[];
+  customerAddress?: CustomerAddress[];
 }
