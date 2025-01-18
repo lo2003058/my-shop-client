@@ -7,6 +7,7 @@ import { useMutation } from "@apollo/client";
 import { UPDATE_CUSTOMER } from "@/graphql/account/mutation";
 import { useSession } from "next-auth/react";
 import LoadingComponent from "@/components/common/loadingComponent";
+import { GqlErrorMessage } from "@/types/error/types";
 
 interface PasswordBoxProps {
   customerId: number; // Ensure this is provided
@@ -63,11 +64,14 @@ const PasswordBox: React.FC<PasswordBoxProps> = ({ customerId }) => {
         timer: 1500,
       });
       reset(); // Reset the form after successful submission
-    } catch (err: any) {
+    } catch (err: unknown) {
+      // Safely narrow 'err' to GqlErrorMessage
+      const error = err as GqlErrorMessage;
+
       // Extract error message
       const errorMessage =
-        err?.graphQLErrors?.[0]?.message ||
-        err?.message ||
+        error?.graphQLErrors?.[0]?.message ||
+        error?.message ||
         "An error occurred while updating your password.";
 
       await Swal.fire({

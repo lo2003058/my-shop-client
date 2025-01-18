@@ -14,11 +14,24 @@ import Link from "next/link";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
+import Tooltip from "@/components/common/tooltip";
+import { randomString } from "@/utils/randomString";
 
 const navigation = [
   { name: "Product", href: "/product" },
   { name: "About Us", href: "/about-us" },
   { name: "FAQs", href: "/faqs" },
+];
+
+const randomStringArray = [
+  { value: "Never Gonna Give You Up", weight: 0.166 },
+  { value: "Never gonna let you down", weight: 0.166 },
+  { value: "Never gonna run around and desert you", weight: 0.166 },
+  { value: "Never gonna make you cry", weight: 0.166 },
+  { value: "Never gonna say goodbye", weight: 0.166 },
+  { value: "Never gonna tell a lie and hurt you", weight: 0.166 },
+  { value: "You only have 1% change get the code", weight: 0.003 },
+  { value: "OK, You found discount code: LOVE_VEDA", weight: 0.001 },
 ];
 
 export default function Header() {
@@ -65,48 +78,53 @@ export default function Header() {
 
         {/* Centered Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <Link href="/">
-            <span className="sr-only">Yin Company</span>
-            <Image
-              src={"/images/happy-pepe.png"}
-              alt={"Yin Company"}
-              className="h-16 w-auto p-1 sm:p-2"
-              width={64}
-              height={64}
-            />
-          </Link>
+          <Tooltip text={randomString(randomStringArray)} position={"bottom"}>
+            <Link href="/">
+              <span className="sr-only">Yin Company</span>
+              <Image
+                src={"/images/happy-pepe.png"}
+                alt={"Yin Company"}
+                className="h-16 w-auto p-1 sm:p-2"
+                width={64}
+                height={64}
+                priority
+              />
+            </Link>
+          </Tooltip>
         </div>
 
         {/* User and Cart Icons */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-6">
           {/* User Icon */}
-          <Link
-            href={session ? "/account" : "/auth/signin"}
-            className="text-gray-900 hover:text-gray-700 flex items-center"
-            aria-label={session ? "User" : "Sign In"}
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            {/* Optionally Display User Avatar */}
-            {session?.user.image ? (
-              <Image
-                src={session.user.image || "/images/default-avatar.png"}
-                alt={session.user.firstName || "User Avatar"}
-                className="h-6 w-6 rounded-full object-cover"
-                width={32}
-                height={32}
-              />
-            ) : (
-              <Image
-                src={"/images/default-avatar.png"}
-                alt={"User Avatar"}
-                className="h-10 w-10 rounded-full object-cover border-2 border-gray-600 bg-gray-100"
-                width={32}
-                height={32}
-              />
-              // <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
-            )}
-          </Link>
-
+          <Tooltip text={`Account`} position={"bottom"}>
+            <Link
+              href={session ? "/account" : "/auth/signin"}
+              className="text-gray-900 hover:text-gray-700 flex items-center"
+              aria-label={session ? "User" : "Sign In"}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {/* Optionally Display User Avatar */}
+              {session?.user.image ? (
+                <Image
+                  src={session.user.image || "/images/default-avatar.png"}
+                  alt={session.user.firstName || "User Avatar"}
+                  className="h-6 w-6 rounded-full object-cover"
+                  width={32}
+                  height={32}
+                  priority
+                />
+              ) : (
+                <Image
+                  src={"/images/default-avatar.png"}
+                  alt={"User Avatar"}
+                  className="h-10 w-10 rounded-full object-cover border-2 border-gray-600 bg-gray-100"
+                  width={32}
+                  height={32}
+                  priority
+                />
+              )}
+            </Link>
+          </Tooltip>
           {/* Cart Icon with Badge */}
           <Link
             href="/shopping-cart"
@@ -114,12 +132,14 @@ export default function Header() {
             aria-label="Shopping Cart"
             onClick={() => setMobileMenuOpen(false)}
           >
-            <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
-                {totalItems > 99 ? "99+" : totalItems}
-              </span>
-            )}
+            <Tooltip text={`Cart`} position={"bottom"}>
+              <FontAwesomeIcon icon={faShoppingCart} className="h-6 w-6" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-3 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full">
+                  {totalItems > 99 ? "99+" : totalItems}
+                </span>
+              )}
+            </Tooltip>
           </Link>
         </div>
       </nav>
@@ -186,6 +206,7 @@ export default function Header() {
                       className="h-6 w-6 rounded-full object-cover"
                       width={32}
                       height={32}
+                      priority
                     />
                   ) : (
                     <Image
@@ -194,6 +215,7 @@ export default function Header() {
                       className="h-10 w-10 rounded-full object-cover border-2 border-gray-600 bg-gray-100"
                       width={32}
                       height={32}
+                      priority
                     />
                     // <FontAwesomeIcon icon={faUser} className="h-6 w-6" />
                   )}

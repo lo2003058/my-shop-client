@@ -5,7 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGem, faStar } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import PasswordBox from "@/components/account/form/passwordBox";
-import LoadingComponent from '@/components/common/loadingComponent';
+import LoadingComponent from "@/components/common/loadingComponent";
+import Tooltip from '@/components/common/tooltip';
 
 interface GeneralComponentProps {
   customer?: {
@@ -36,7 +37,7 @@ const GeneralComponent: React.FC<GeneralComponentProps> = ({ customer }) => {
     }
   }, [session, status, router]);
 
-  if (!customer){
+  if (!customer) {
     return <LoadingComponent />;
   }
 
@@ -49,17 +50,20 @@ const GeneralComponent: React.FC<GeneralComponentProps> = ({ customer }) => {
       <div className="bg-white shadow border rounded-lg p-6 my-2">
         <div className="flex flex-col items-center">
           {/* User Avatar */}
-          <Image
-            src={session?.user.image || "/images/default-avatar.png"} // Ensure this domain is configured in next.config.js
-            alt={
-              session?.user.email
-                ? `${session.user.email}'s avatar`
-                : "Default user avatar"
-            }
-            width={128}
-            height={128}
-            className="h-24 w-24 rounded-full object-cover border-2 border-gray-800 bg-gray-100"
-          />
+          <Tooltip text={`Don't touch me`} position={"top"}>
+            <Image
+              src={session?.user.image || "/images/default-avatar.png"} // Ensure this domain is configured in next.config.js
+              alt={
+                session?.user.email
+                  ? `${session.user.email}'s avatar`
+                  : "Default user avatar"
+              }
+              width={128}
+              height={128}
+              className="h-24 w-24 rounded-full object-cover border-2 border-gray-800 bg-gray-100"
+              priority
+            />
+          </Tooltip>
           <h1 className="mt-4 text-2xl font-semibold text-gray-800">
             {!customer?.firstName || !customer?.lastName
               ? `Welcome!`

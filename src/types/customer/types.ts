@@ -10,11 +10,13 @@ export interface SecondaryNavigationItem {
 
 export interface CustomerAddress {
   id: number;
+  tag: string;
   firstName: string;
   lastName: string;
   phone: string;
   countryCode: string;
   address: string;
+  address2?: string;
   city: string;
   state: string;
   zipCode: string;
@@ -68,4 +70,35 @@ export interface GetCustomerWishList {
 
 export interface GetCustomerAddress {
   customerAddress?: CustomerAddress[];
+}
+
+export interface EditAddressData {
+  id: number;
+  tag: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  phone: string;
+  address: string;
+  address2?: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  isDefault: boolean;
+}
+
+export interface AddressFormData {
+  tag: string;
+  firstName: string;
+  lastName: string;
+  countryCode: string;
+  phone: string;
+  address: string;
+  address2?: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  isDefault: boolean;
 }

@@ -104,7 +104,7 @@ const AccountPage: React.FC = () => {
         />
 
         {/* Main Content */}
-        <main className="flex-1 p-6 lg:p-8">{selectedComponent()}</main>
+        <div className="flex-1 p-6 lg:p-8">{selectedComponent()}</div>
       </div>
     </div>
   );

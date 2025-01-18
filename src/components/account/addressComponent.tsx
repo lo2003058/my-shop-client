@@ -2,13 +2,27 @@ import React, { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@headlessui/react";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import Swal from "sweetalert2";
 
 import AddressFormModal from "@/components/account/form/addressFormModal";
 import LoadingComponent from "@/components/common/loadingComponent";
 import { GET_CUSTOMER_ADDRESSES } from "@/graphql/account/queries";
-import { GetCustomerAddress } from "@/types/customer/types";
+import { EditAddressData, GetCustomerAddress } from "@/types/customer/types";
+import {
+  REMOVE_CUSTOMER_ADDRESS,
+  UPDATE_CUSTOMER_DEFAULT_ADDRESS,
+} from "@/graphql/account/mutation";
+import { GqlErrorMessage } from "@/types/error/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faMapMarkerAlt,
+  faMapPin,
+  faPen,
+  faPhone,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
+import Tooltip from "@/components/common/tooltip";
 
 interface AddressComponentProps {
   customer?: {
@@ -16,37 +30,16 @@ interface AddressComponentProps {
   };
 }
 
-/** Duplicate the shape from your editAddress interface if needed */
-interface EditAddressData {
-  id: number;
-  firstName: string;
-  lastName: string;
-  countryCode: string;
-  phone: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  zipCode: string;
-  isDefault: boolean;
-}
-
 const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // Track the numeric customerId (if any)
   const [customerId, setCustomerId] = useState<number | undefined>();
 
-  // Modal open/close
   const [isModalOpen, setModalOpen] = useState(false);
 
-  // For create vs. edit mode
   const [editAddress, setEditAddress] = useState<EditAddressData | null>(null);
 
-  // -------------------------------
-  // Fetch the user's addresses
-  // -------------------------------
   const { data, loading, error, refetch } = useQuery<GetCustomerAddress>(
     GET_CUSTOMER_ADDRESSES,
     {
@@ -59,9 +52,11 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
     },
   );
 
-  // -------------------------------
-  // Auth & Setup
-  // -------------------------------
+  const [updateCustomerDefaultAddress] = useMutation(
+    UPDATE_CUSTOMER_DEFAULT_ADDRESS,
+  );
+  const [deleteCustomerAddress] = useMutation(REMOVE_CUSTOMER_ADDRESS);
+
   useEffect(() => {
     if (status === "loading") return;
     if (!session) {
@@ -75,9 +70,6 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
     }
   }, [session, status, router, customer?.id]);
 
-  // -------------------------------
-  // Loading / Error States
-  // -------------------------------
   if (status === "loading" || loading) {
     return <LoadingComponent />;
   }
@@ -97,29 +89,119 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
     });
   }
 
-  // -------------------------------
-  // Handlers
-  // -------------------------------
   const handleOpenModalForCreate = () => {
-    // Clear any previous edit data so we open in create mode
     setEditAddress(null);
     setModalOpen(true);
   };
 
   const handleOpenModalForEdit = (addr: EditAddressData) => {
-    // Set the address we want to edit
     setEditAddress(addr);
     setModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    // After saving or closing, refetch addresses
     refetch().finally(() => setModalOpen(false));
   };
 
-  // -------------------------------
-  // Render
-  // -------------------------------
+  const handleUpdateDefaultAddress = async (addressId: number) => {
+    try {
+      await updateCustomerDefaultAddress({
+        variables: {
+          addressId: addressId,
+          customerId: customerId,
+        },
+        context: {
+          headers: { Authorization: `Bearer ${session?.accessToken}` },
+        },
+      })
+        .then(async () => {
+          await Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Default Address Updated",
+            text: "Your default address has been updated.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        })
+        .finally(() => {
+          refetch(); // or any other state update needed
+        });
+    } catch (err: unknown) {
+      // Safely narrow 'err' to GqlErrorMessage
+      const error = err as GqlErrorMessage;
+
+      // Extract error message
+      const errorMessage =
+        error?.graphQLErrors?.[0]?.message ||
+        error?.message ||
+        "An error occurred while updating your default address.";
+
+      await Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Update Default Address Error",
+        text: errorMessage,
+        timer: 1500,
+      });
+    }
+  };
+
+  const handleDeleteAddress = async (addressId: number) => {
+    try {
+      await Swal.fire({
+        title: "Delete Address",
+        text: "Are you sure you want to delete this address?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+        confirmButtonColor: "red",
+        cancelButtonText: "Cancel",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await deleteCustomerAddress({
+            variables: {
+              id: addressId,
+            },
+            context: {
+              headers: { Authorization: `Bearer ${session?.accessToken}` },
+            },
+          })
+            .then(async () => {
+              await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Address Deleted Successfully",
+                text: "Your address has been removed.",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+            })
+            .finally(() => {
+              refetch(); // or any other state update needed
+            });
+        }
+      });
+    } catch (err: unknown) {
+      // Safely narrow 'err' to GqlErrorMessage
+      const error = err as GqlErrorMessage;
+
+      // Extract error message
+      const errorMessage =
+        error?.graphQLErrors?.[0]?.message ||
+        error?.message ||
+        "An error occurred while deleting your address.";
+
+      await Swal.fire({
+        position: "center",
+        icon: "error",
+        title: "Delete Address Error",
+        text: errorMessage,
+        timer: 1500,
+      });
+    }
+  };
+
   const customerAddress = data?.customerAddress;
 
   return (
@@ -129,12 +211,27 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
         <h2 className="text-2xl font-bold text-black">Address</h2>
         {/* Only show "Add" if addresses exist, or the user is loaded */}
         {customerAddress && customerAddress.length > 0 && (
-          <Button
-            onClick={handleOpenModalForCreate}
-            className="bg-indigo-600 text-white py-2 px-6 rounded hover:bg-indigo-700 transition-colors duration-300"
+          // Show tooltip if max address limit reached
+          <Tooltip
+            text={
+              customerAddress.length >= 5
+                ? "You have reached the maximum address limit."
+                : ""
+            }
+            position={`bottom`}
           >
-            Add Address
-          </Button>
+            <Button
+              onClick={handleOpenModalForCreate}
+              className={
+                customerAddress.length >= 5
+                  ? "bg-gray-500 text-white py-2 px-6 rounded transition-colors duration-300 cursor-not-allowed "
+                  : "bg-indigo-600 text-white py-2 px-6 rounded hover:bg-indigo-700 transition-colors duration-300"
+              }
+              disabled={customerAddress.length >= 5}
+            >
+              Add address
+            </Button>
+          </Tooltip>
         )}
       </div>
 
@@ -143,46 +240,127 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
           {customerAddress.map((address) => (
             <div
               key={address.id}
-              className="border border-gray-200 shadow-sm rounded-lg p-4 bg-white"
+              className="relative border border-gray-200 shadow-sm rounded-lg p-4 bg-white"
             >
-              <div className="mb-2">
-                <span className="block text-lg font-semibold text-gray-800">
-                  {address.firstName} {address.lastName}
-                </span>
-              </div>
-              <div className="mb-2">
-                <p className="text-gray-700 text-sm">
-                  <span className="font-medium">Phone:</span>{" "}
-                  {address.countryCode} {address.phone}
-                </p>
-              </div>
-              <div className="mb-2 text-gray-700 text-sm">
-                <p>
-                  <span className="font-medium">Address:</span>{" "}
-                  {address.address}
-                </p>
-                <p>
-                  {address.city}, {address.state}, {address.country} -{" "}
-                  {address.zipCode}
-                </p>
-              </div>
-              {address.isDefault && (
-                <span className="inline-block mt-2 py-1 px-2 text-xs bg-indigo-100 text-indigo-700 rounded">
-                  Default Address
-                </span>
-              )}
+              {/* Top-right buttons */}
+              <div className="absolute top-2 right-2 flex flex-col items-center space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1">
+                {/* Not default => Show 'Set to default' */}
+                {!address.isDefault && (
+                  <Tooltip text="Set to default">
+                    <div
+                      className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleUpdateDefaultAddress(address.id)}
+                    >
+                      <Button className="text-black hover:bg-gray-100 hover:text-gray-700">
+                        <FontAwesomeIcon icon={faMapPin} />
+                      </Button>
+                    </div>
+                  </Tooltip>
+                )}
 
-              {/* Edit button */}
-              <div className="mt-4">
-                <Button
-                  onClick={() => handleOpenModalForEdit(address)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded"
-                >
-                  Edit
-                </Button>
+                {/* Edit button */}
+                <Tooltip text="Edit">
+                  <div
+                    className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100 cursor-pointer"
+                    onClick={() => handleOpenModalForEdit(address)}
+                  >
+                    <Button className="text-black hover:bg-gray-100 hover:text-gray-700">
+                      <FontAwesomeIcon icon={faPen} />
+                    </Button>
+                  </div>
+                </Tooltip>
+
+                {/* Delete button (hidden if there's only one address or if it's default) */}
+                {customerAddress.length > 1 && !address.isDefault && (
+                  <Tooltip text="Delete">
+                    <div
+                      className="flex items-center justify-center h-10 w-10 rounded-full hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleDeleteAddress(address.id)}
+                    >
+                      <Button className="text-black hover:bg-gray-100 hover:text-gray-700">
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    </div>
+                  </Tooltip>
+                )}
+              </div>
+
+              {/* Main Address Info */}
+              <div className="mb-2">
+                <div className="mb-2 flex flex-wrap items-center text-lg font-semibold text-gray-800">
+                  {/* Full Name */}
+                  <span className="mr-2">
+                    {address.firstName} {address.lastName}
+                  </span>
+
+                  {/* Default Address Badge */}
+                  {address.isDefault && (
+                    <span className="mr-2 inline-flex items-center gap-x-1.5 rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700">
+                      <svg
+                        viewBox="0 0 6 6"
+                        aria-hidden="true"
+                        className="h-1.5 w-1.5 fill-blue-500"
+                      >
+                        <circle r={3} cx={3} cy={3} />
+                      </svg>
+                      Default Address
+                    </span>
+                  )}
+
+                  {/* Tag Badge */}
+                  {address.tag && (
+                    <span className="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                      <svg
+                        viewBox="0 0 6 6"
+                        aria-hidden="true"
+                        className="h-1.5 w-1.5 fill-green-500"
+                      >
+                        <circle r={3} cx={3} cy={3} />
+                      </svg>
+                      {address.tag}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="text-sm text-gray-700 mt-3 space-y-3">
+                {/* Phone Row */}
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faPhone} className="text-blue-500" />
+                  <p>
+                    <span className="font-semibold">Phone:</span>{" "}
+                    {JSON.parse(address.countryCode).root} {address.phone}
+                  </p>
+                </div>
+
+                {/* Address Block */}
+                <div className="flex items-start gap-2">
+                  <FontAwesomeIcon
+                    icon={faMapMarkerAlt}
+                    className="mt-0.5 text-green-500"
+                  />
+                  <div>
+                    <p>
+                      <span className="font-semibold">Address:</span>{" "}
+                      {address.address2 ? address.address2 + `-` : ``}
+                      {address.address}
+                    </p>
+                    <p>
+                      {address.city}, {address.state}, {address.country} -{" "}
+                      {address.zipCode}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
+
+          {/*add reminder to customer, if your address not correct, it will affect shipping time*/}
+          <div className="flex items-center justify-center mt-4">
+            <p className="text-sm text-gray-500">
+              Please make sure your address is correct. Incorrect address may
+              make delivery time longer.
+            </p>
+          </div>
         </div>
       ) : (
         /* No addresses => show the placeholder + Add button */
