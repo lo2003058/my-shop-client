@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignInFormData } from "@/app/api/auth/signin/types";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const SignInPage = () => {
   const {
@@ -42,13 +43,19 @@ const SignInPage = () => {
         });
         router.push("/account"); // Redirect to account page
       }
-    } catch (err: any) {
-      // console.error("Login error:", err.response?.data || err.message);
+    } catch (err: unknown) {
+      let errorMessage = "An error occurred during sign in";
+      if (axios.isAxiosError(err)) {
+        errorMessage = err.response?.data?.error || errorMessage;
+      } else if (err instanceof Error) {
+        errorMessage = err.message;
+      }
+
       await Swal.fire({
         position: "center",
         icon: "error",
         title: "Sign In Error",
-        text: err.response?.data?.error || "An error occurred during sign in",
+        text: errorMessage,
         timer: 1500,
       });
     }
@@ -137,7 +144,7 @@ const SignInPage = () => {
 
           {/* Sign Up Link */}
           <p className="mt-6 text-center text-gray-600">
-            Don&#39;t have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/auth/signup" className="text-blue-500 hover:underline">
               Sign Up
             </Link>

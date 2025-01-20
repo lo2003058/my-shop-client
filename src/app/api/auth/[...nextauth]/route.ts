@@ -39,10 +39,14 @@ const handler = NextAuth({
           } else {
             return null;
           }
-        } catch (error: any) {
-          throw new Error(
-            error.response?.data?.error || "Authentication failed",
-          );
+        } catch (error: unknown) {
+          if (axios.isAxiosError(error)) {
+            throw new Error(
+              error.response?.data?.error || "Authentication failed",
+            );
+          }
+          // Handle non-Axios errors or rethrow them
+          throw new Error("Authentication failed");
         }
       },
     }),

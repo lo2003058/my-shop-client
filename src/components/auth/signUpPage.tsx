@@ -21,8 +21,9 @@ const SignUpPage = () => {
   const onSubmit: SubmitHandler<SignUpFormInput> = async (data) => {
     setServerError(null);
 
-    // Destructure to exclude confirmPassword before sending to backend
-    const { confirmPassword, ...signUpData } = data;
+    // Destructure to exclude confirmPassword using a throwaway variable
+    const { confirmPassword: _unused, ...signUpData } = data;
+    void _unused; // Explicitly reference the unused variable to satisfy ESLint
 
     try {
       await axios
@@ -37,11 +38,16 @@ const SignUpPage = () => {
             router.push("/auth/signin");
           });
         });
-    } catch (err: any) {
-      console.error("Registration error:", err.response?.data || err.message);
-      setServerError(
-        err.response?.data?.error || "An error occurred during registration",
-      );
+    } catch (err: unknown) {
+      let errorMsg = "An error occurred during registration";
+      if (axios.isAxiosError(err)) {
+        console.error("Registration error:", err.response?.data || err.message);
+        errorMsg = err.response?.data?.error || errorMsg;
+      } else if (err instanceof Error) {
+        console.error("Registration error:", err.message);
+        errorMsg = err.message;
+      }
+      setServerError(errorMsg);
     }
   };
 
@@ -75,7 +81,8 @@ const SignUpPage = () => {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  value:
+                    /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                   message: "Enter a valid email address",
                 },
               })}

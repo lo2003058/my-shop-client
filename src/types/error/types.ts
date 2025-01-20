@@ -1,6 +1,7 @@
 export interface GraphQLErrorDetail {
   message: string;
-  [key: string]: any;
+
+  [key: string]: unknown;
 }
 
 export interface GqlErrorMessage {
@@ -14,5 +15,5 @@ export interface GqlErrorMessage {
   networkError?: unknown;
 
   // Optionally include any other properties you want to capture
-  [key: string]: any;
+  [key: string]: unknown;
 }

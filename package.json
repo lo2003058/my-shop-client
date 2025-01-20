@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build_next": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint_next": "next lint"
   },
   "dependencies": {
     "@apollo/client": "^3.12.3",
