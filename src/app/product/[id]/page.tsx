@@ -11,9 +11,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ProductItem({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>; // Declare params as a Promise
 }) {
-  const { id } = await params;
+  const { id } = await params; // Await the params promise
   const productId = parseInt(id, 10);
 
   return <ProductItemPage productId={productId} />;
