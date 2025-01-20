@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Combobox,
   ComboboxButton,
@@ -12,14 +11,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-/** The shape we store in the form. */
 export interface CountryCodeObject {
   name: string; // e.g. "Canada"
   cca3: string; // e.g. "CAN"
   root: string; // e.g. "+1"
 }
 
-/** The raw shape from the API. */
 interface RawApiCountry {
   name: { common: string };
   cca3: string;
@@ -28,23 +25,15 @@ interface RawApiCountry {
 }
 
 interface CountryCodeComboBoxProps {
-  /**
-   * The current selected object or null
-   * e.g. { name: "Canada", cca3: "CAN", root: "+1" }
-   */
   value: CountryCodeObject | null;
-
-  /** Called with the full object or null when user changes. */
   onChange: (val: CountryCodeObject | null) => void;
-
-  /** Optional error flag to apply error styling */
   error?: boolean;
 }
 
 const CountryCodeComboBox: React.FC<CountryCodeComboBoxProps> = ({
   value,
   onChange,
-  error = false, // default to false if not provided
+  error = false,
 }) => {
   const [items, setItems] = useState<RawApiCountry[]>([]);
   const [query, setQuery] = useState("");
@@ -59,10 +48,14 @@ const CountryCodeComboBox: React.FC<CountryCodeComboBoxProps> = ({
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get<RawApiCountry[]>(
+        const res = await fetch(
           "https://restcountries.com/v3.1/alpha?codes=us,ca&status=true&fields=name,flag,idd,cca3",
         );
-        setItems(res.data);
+        if (!res.ok) {
+          throw new Error(`HTTP error! Status: ${res.status}`);
+        }
+        const data = (await res.json()) as RawApiCountry[];
+        setItems(data);
       } catch (err) {
         console.error("Error fetching countries:", err);
       }
@@ -71,7 +64,6 @@ const CountryCodeComboBox: React.FC<CountryCodeComboBoxProps> = ({
     fetchData();
   }, []);
 
-  // Filtering by name or root
   const filtered = items.filter((item) => {
     if (!query) return true;
     const nameMatch = item.name.common
@@ -81,12 +73,10 @@ const CountryCodeComboBox: React.FC<CountryCodeComboBoxProps> = ({
     return nameMatch || rootMatch;
   });
 
-  // Find the selected item that matches `value` (if any)
   const selectedItem = value
     ? items.find((i) => i.cca3 === value.cca3 && i.idd.root === value.root)
     : null;
 
-  // User picks an item or clears it
   const handleSelect = (item: RawApiCountry | null) => {
     if (!item) {
       onChange(null);
@@ -154,8 +144,6 @@ const CountryCodeComboBox: React.FC<CountryCodeComboBoxProps> = ({
                       {c.idd.root} {c.name.common}
                     </span>
                   </div>
-
-                  {/* Checkmark if selected */}
                   <span
                     className="
                       absolute inset-y-0 right-0 hidden items-center pr-4

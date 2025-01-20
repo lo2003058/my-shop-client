@@ -20,6 +20,7 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 type Props = {
   children: ReactNode;
@@ -28,6 +29,7 @@ type Props = {
 const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en">
+      <SpeedInsights />
       <body>
         <SessionProvider>
           <ApolloProvider client={apolloClient}>

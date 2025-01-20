@@ -40,21 +40,18 @@ const AccountPage: React.FC = () => {
   }, [status, session, router]);
 
   // Skip the query if customerId is not yet set
-  const { loading, error, data } = useQuery<GetCustomer>(
-    GET_CUSTOMER,
-    {
-      skip: !customerId,
-      variables: { id: customerId },
-      context: {
-        headers: { Authorization: `Bearer ${session?.accessToken}` },
-      },
+  const { loading, error, data } = useQuery<GetCustomer>(GET_CUSTOMER, {
+    skip: !customerId,
+    variables: { id: customerId },
+    context: {
+      headers: { Authorization: `Bearer ${session?.accessToken}` },
     },
-  );
+  });
 
   const [current, setCurrent] = useState("General");
 
   // If session is loading or the query is loading, show loading spinner
-  if (status === "loading" || loading || !customerId) {
+  if (status === "loading" || loading) {
     return <LoadingComponent />;
   }
 
@@ -84,11 +81,9 @@ const AccountPage: React.FC = () => {
       case "Order":
         return <OrderComponent customerOrder={[]} />;
       case "Address":
-        return <AddressComponent customer={customer}/>;
+        return <AddressComponent customer={customer} />;
       case "Wishlist":
-        return (
-          <WishlistComponent customer={customer}/>
-        );
+        return <WishlistComponent customer={customer} />;
       default:
         return <GeneralComponent customer={customer} />;
     }

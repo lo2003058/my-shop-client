@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
@@ -26,24 +25,33 @@ const SignUpPage = () => {
     void _unused; // Explicitly reference the unused variable to satisfy ESLint
 
     try {
-      await axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`, signUpData)
-        .then(() => {
-          Swal.fire({
-            icon: "success",
-            text: "Registration successful! Please sign in to continue.",
-            position: "center",
-            timer: 1500,
-          }).then(() => {
-            router.push("/auth/signin");
-          });
-        });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(signUpData),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Registration failed");
+      }
+
+      await Swal.fire({
+        icon: "success",
+        text: "Registration successful! Please sign in to continue.",
+        position: "center",
+        timer: 1500,
+      });
+
+      router.push("/auth/signin");
     } catch (err: unknown) {
       let errorMsg = "An error occurred during registration";
-      if (axios.isAxiosError(err)) {
-        console.error("Registration error:", err.response?.data || err.message);
-        errorMsg = err.response?.data?.error || errorMsg;
-      } else if (err instanceof Error) {
+      if (err instanceof Error) {
         console.error("Registration error:", err.message);
         errorMsg = err.message;
       }
@@ -81,8 +89,7 @@ const SignUpPage = () => {
               {...register("email", {
                 required: "Email is required",
                 pattern: {
-                  value:
-                    /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                   message: "Enter a valid email address",
                 },
               })}

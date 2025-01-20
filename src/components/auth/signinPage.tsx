@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { SignInFormData } from "@/app/api/auth/signin/types";
 import Swal from "sweetalert2";
-import axios from "axios";
 
 const SignInPage = () => {
   const {
@@ -45,9 +44,7 @@ const SignInPage = () => {
       }
     } catch (err: unknown) {
       let errorMessage = "An error occurred during sign in";
-      if (axios.isAxiosError(err)) {
-        errorMessage = err.response?.data?.error || errorMessage;
-      } else if (err instanceof Error) {
+      if (err instanceof Error) {
         errorMessage = err.message;
       }
 

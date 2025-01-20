@@ -65,7 +65,7 @@ export interface GetCustomer {
 }
 
 export interface GetCustomerWishList {
-  customerWishList?: PaginatedWishList[];
+  customerWishList?: PaginatedWishList;
 }
 
 export interface GetCustomerAddress {

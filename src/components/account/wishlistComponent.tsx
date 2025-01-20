@@ -17,16 +17,6 @@ interface WishListComponentProps {
   };
 }
 
-interface WishListItem {
-  product: {
-    id: number;
-    name: string;
-    description: string;
-    imageUrl: string;
-    price: number;
-  };
-}
-
 const WishListComponent: React.FC<WishListComponentProps> = ({ customer }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -101,7 +91,7 @@ const WishListComponent: React.FC<WishListComponentProps> = ({ customer }) => {
         {items && items.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-              {items.map((item: WishListItem) => (
+              {items.map((item) => (
                 <div
                   key={item.product.id}
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"

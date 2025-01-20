@@ -27,7 +27,7 @@ export default function WishlistButton({
 
   useEffect(() => {
     if (status === "loading") return; // Do nothing while loading
-    if (session?.user) setCustomerId(session?.user?.id);
+    if (session?.user?.id) setCustomerId(Number(session.user.id));
   }, [session, status]);
 
   const [isFavorited, setIsFavorited] = useState<boolean>(isFavorite || false);

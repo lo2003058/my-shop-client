@@ -1,4 +1,3 @@
-// components/Header.tsx
 "use client";
 
 import React, { useState } from "react";
@@ -107,7 +106,7 @@ export default function Header() {
               {session?.user.image ? (
                 <Image
                   src={session.user.image || "/images/default-avatar.png"}
-                  alt={session.user.firstName || "User Avatar"}
+                  alt={"User Avatar"}
                   className="h-6 w-6 rounded-full object-cover"
                   width={32}
                   height={32}
@@ -202,7 +201,7 @@ export default function Header() {
                   {session?.user.image ? (
                     <Image
                       src={session.user.image || "/images/default-avatar.png"}
-                      alt={session.user.firstName || "User Avatar"}
+                      alt={"User Avatar"}
                       className="h-6 w-6 rounded-full object-cover"
                       width={32}
                       height={32}
