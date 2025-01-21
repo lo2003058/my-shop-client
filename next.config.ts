@@ -3,7 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-  domains: ["images.unsplash.com", "tailwindui.com", "placehold.co"],
+  domains: [
+    "images.unsplash.com",
+    "tailwindui.com",
+    "placehold.co",
+    "image.iamyin.me", // Added new domain here
+  ],
   images: {
     remotePatterns: [
       {
@@ -17,6 +22,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "placehold.co",
+      },
+      {
+        protocol: "https",
+        hostname: "image.iamyin.me", // Added new remote pattern here
       },
     ],
   },
