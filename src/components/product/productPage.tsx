@@ -14,6 +14,7 @@ import ProductTitle from "@/components/product/productTitle";
 import RecommendProduct from "@/components/main/recommendProduct";
 import PaginationButtons from "@/components/common/paginationButtons";
 import type { Product } from "@/types/product/types";
+import LoadingComponent from '@/components/common/loadingComponent';
 
 interface ProductsV2Data {
   productsV2: {
@@ -119,7 +120,7 @@ const ProductPage: React.FC = () => {
 
   // Loading & Error
   if (loading && !products.length) {
-    return <p>Loading...</p>;
+    return <LoadingComponent />;
   }
   if (error) {
     console.error(error);
