@@ -6,7 +6,6 @@ const nextConfig: NextConfig = {
   domains: [
     "images.unsplash.com",
     "tailwindui.com",
-    "placehold.co",
     "image.iamyin.me", // Added new domain here
   ],
   images: {
@@ -18,10 +17,6 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "tailwindui.com",
-      },
-      {
-        protocol: "https",
-        hostname: "placehold.co",
       },
       {
         protocol: "https",

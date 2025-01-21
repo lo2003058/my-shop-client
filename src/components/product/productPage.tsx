@@ -165,8 +165,7 @@ const ProductPage: React.FC = () => {
                     <Image
                       alt={product.name}
                       src={
-                        `${process.env.NEXT_PUBLIC_CLIENT_URL}${product.imageUrl}` ||
-                        `${process.env.NEXT_PUBLIC_CLIENT_URL}https://placehold.co/600x600`
+                        `${product.imageUrl}` || `https://image.iamyin.me/no-image-available.webp`
                       }
                       width={600}
                       height={600}

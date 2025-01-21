@@ -137,8 +137,8 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
             <div className="w-full h-96 relative">
               <Image
                 src={
-                  `${process.env.NEXT_PUBLIC_CLIENT_URL}${imageUrl}` ||
-                  `${process.env.NEXT_PUBLIC_CLIENT_URL}https://placehold.co/600x600`
+                  `${imageUrl}` ||
+                  `https://image.iamyin.me/no-image-available.webp`
                 }
                 alt={name}
                 fill
