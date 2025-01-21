@@ -22,6 +22,17 @@ const navigation = [
   { name: "FAQs", href: "/faqs" },
 ];
 
+const randomStringArray = [
+  { value: "Never Gonna Give You Up.", weight: 0.166 },
+  { value: "Never gonna let you down.", weight: 0.166 },
+  { value: "Never gonna run around and desert you.", weight: 0.166 },
+  { value: "Never gonna make you cry.", weight: 0.166 },
+  { value: "Never gonna say goodbye.", weight: 0.166 },
+  { value: "Never gonna tell a lie and hurt you.", weight: 0.166 },
+  { value: "You only have 1% change get the code.", weight: 0.003 },
+  { value: "OK, You found discount code: LOVE_VEDA", weight: 0.001 },
+];
+
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -66,7 +77,7 @@ export default function Header() {
 
         {/* Centered Logo */}
         <div className="absolute left-1/2 transform -translate-x-1/2">
-          <Tooltip text={randomString()} position={"bottom"}>
+          <Tooltip text={randomString(randomStringArray)} position={"bottom"}>
             <Link href="/">
               <span className="sr-only">Yin Company</span>
               <Image
