@@ -5,6 +5,7 @@ import React, { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
 import { apolloClient } from "@/lib/apolloClient";
 import { ApolloProvider } from "@apollo/client";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config, library } from "@fortawesome/fontawesome-svg-core";
@@ -18,9 +19,8 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
-import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import Header from '@/components/common/header';
 
 type Props = {
   children: ReactNode;
