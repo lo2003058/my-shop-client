@@ -165,10 +165,10 @@ const ProductPage: React.FC = () => {
                     <Image
                       alt={product.name}
                       src={
-                        product.imageUrl || "https://via.placeholder.com/450"
+                        product.imageUrl || "https://placehold.co/600x600"
                       }
-                      width={300}
-                      height={300}
+                      width={600}
+                      height={600}
                       priority
                       className="aspect-square w-full rounded-lg bg-gray-200 object-cover group-hover:opacity-75"
                     />

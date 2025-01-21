@@ -136,7 +136,7 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
           <div className="flex flex-col">
             <div className="w-full h-96 relative">
               <Image
-                src={imageUrl || "https://via.placeholder.com/600"}
+                src={imageUrl || "https://placehold.co/600x600"}
                 alt={name}
                 fill
                 className="rounded-lg shadow-md object-cover"
