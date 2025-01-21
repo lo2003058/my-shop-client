@@ -136,7 +136,10 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
           <div className="flex flex-col">
             <div className="w-full h-96 relative">
               <Image
-                src={imageUrl || "https://placehold.co/600x600"}
+                src={
+                  `${process.env.NEXT_PUBLIC_CLIENT_URL}${imageUrl}` ||
+                  `${process.env.NEXT_PUBLIC_CLIENT_URL}https://placehold.co/600x600`
+                }
                 alt={name}
                 fill
                 className="rounded-lg shadow-md object-cover"
