@@ -15,7 +15,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import RecommendProduct from "@/components/main/recommendProduct";
-import { round } from "@floating-ui/utils";
 
 const ShoppingCartPage: React.FC = () => {
   const router = useRouter();
