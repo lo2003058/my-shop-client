@@ -3,11 +3,6 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
-  domains: [
-    "images.unsplash.com",
-    "tailwindui.com",
-    "image.iamyin.me", // Added new domain here
-  ],
   images: {
     remotePatterns: [
       {

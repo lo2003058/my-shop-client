@@ -35,7 +35,7 @@ const RecommendProduct: React.FC = () => {
               <div key={product.id} className="group relative">
                 <Image
                   alt={product.name}
-                  src={product.imageUrl || "https://via.placeholder.com/150"}
+                  src={product.imageUrl || "/images/no-image-available.webp"}
                   width={300}
                   height={300}
                   priority

@@ -46,7 +46,10 @@ const ProductPage: React.FC = () => {
       variables: {
         page,
         pageSize,
-        filter: { searchTerm },
+        filter: {
+          searchTerm: searchTerm,
+          isShow: true,
+        },
       },
     },
   );
@@ -166,7 +169,7 @@ const ProductPage: React.FC = () => {
                     <Image
                       alt={product.name}
                       src={
-                        `${product.imageUrl}` || `https://image.iamyin.me/no-image-available.webp`
+                        `${product.imageUrl}` || `/images/no-image-available.webp`
                       }
                       width={600}
                       height={600}

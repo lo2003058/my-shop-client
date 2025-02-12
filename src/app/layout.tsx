@@ -19,8 +19,8 @@ import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 
-import Footer from "@/components/common/footer";
 import Header from '@/components/common/header';
+import Footer from "@/components/common/footer";
 
 type Props = {
   children: ReactNode;

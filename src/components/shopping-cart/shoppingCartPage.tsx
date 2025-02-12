@@ -15,6 +15,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import RecommendProduct from "@/components/main/recommendProduct";
+import { round } from "@floating-ui/utils";
 
 const ShoppingCartPage: React.FC = () => {
   const router = useRouter();
@@ -70,7 +71,7 @@ const ShoppingCartPage: React.FC = () => {
                 <li key={item.id} className="flex py-6 sm:py-10">
                   <div className="shrink-0">
                     <Image
-                      src={item.imageUrl || "https://via.placeholder.com/450"}
+                      src={item.imageUrl || "/images/no-image-available.webp"}
                       alt={item.name}
                       width={96}
                       height={96}
@@ -201,7 +202,9 @@ const ShoppingCartPage: React.FC = () => {
                         />
                       </a>
                     </dt>
-                    <dd className="text-sm font-medium text-gray-900">$8.32</dd>
+                    <dd className="text-sm font-medium text-gray-900">
+                      ${`${((totalPrice + 5) * 0.13).toFixed(2)}`}
+                    </dd>
                   </div>
                 </>
               )}
@@ -211,7 +214,9 @@ const ShoppingCartPage: React.FC = () => {
                   Order total
                 </dt>
                 <dd className="text-base font-medium text-gray-900">
-                  {totalPrice > 0 ? `$${totalPrice + 5 + 8.32}` : "$0.00"}
+                  {totalPrice > 0
+                    ? `$${(totalPrice + 5 + (totalPrice + 5) * 0.13).toFixed(2)}`
+                    : "$0.00"}
                 </dd>
               </div>
             </dl>

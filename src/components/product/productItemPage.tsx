@@ -82,8 +82,14 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
     return <p className="text-center mt-20">Product not found.</p>;
   }
 
-  const { id, name, description, price, imageUrl, isCustomerWishListed } =
-    product;
+  const {
+    id,
+    name,
+    description,
+    price,
+    imageUrl,
+    isCustomerWishListed
+  } = product;
 
   const handleIncrement = () => {
     if (quantity < MAX_QUANTITY) {
@@ -138,7 +144,7 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
               <Image
                 src={
                   `${imageUrl}` ||
-                  `https://image.iamyin.me/no-image-available.webp`
+                  `/images/no-image-available.webp`
                 }
                 alt={name}
                 fill

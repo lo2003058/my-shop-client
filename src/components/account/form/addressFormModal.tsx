@@ -3,8 +3,8 @@
 import React, { Fragment } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { useMutation } from "@apollo/client";
-import Swal from "sweetalert2";
 import { useSession } from "next-auth/react";
+import Swal from "sweetalert2";
 
 import LoadingComponent from "@/components/common/loadingComponent";
 import {
