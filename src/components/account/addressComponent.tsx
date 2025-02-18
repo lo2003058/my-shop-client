@@ -55,6 +55,7 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
   const [updateCustomerDefaultAddress] = useMutation(
     UPDATE_CUSTOMER_DEFAULT_ADDRESS,
   );
+
   const [deleteCustomerAddress] = useMutation(REMOVE_CUSTOMER_ADDRESS);
 
   useEffect(() => {

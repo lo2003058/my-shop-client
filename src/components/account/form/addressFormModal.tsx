@@ -24,7 +24,7 @@ interface AddressFormModalProps {
   customerId?: number;
   /** Number of existing addresses. If 0 => isDefault is checked. */
   existingAddressesCount?: number;
-  /** If editing an existing address, pass data. Otherwise new. */
+  /** If editing an existing address, pass data. Otherwise, new. */
   editAddress?: EditAddressData | null;
 }
 
