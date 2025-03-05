@@ -157,7 +157,12 @@ const ProductItemPage: React.FC<ProductItemPageProps> = ({ productId }) => {
             <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
               {name}
             </h1>
-            <p className="mt-4 text-gray-700">{description}</p>
+
+            <div
+              className={`mt-4 prose prose-sm text-gray-500 max-w-4xl`}
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+
             <p className="mt-6 text-2xl font-semibold text-gray-900">
               ${price.toFixed(2)}
             </p>

@@ -25,6 +25,20 @@ export interface CustomerAddress {
   customerId: number;
 }
 
+export interface CustomerAddressFormData {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  countryCode: string;
+  address: string;
+  address2?: string;
+  city: string;
+  state: string;
+  zipCode: string;
+  country: string;
+}
+
 export interface CustomerPoints {
   currentPoints: number;
   accumulatedPoints: number;
@@ -39,8 +53,25 @@ export interface CustomerWishList {
   updatedAt: Date;
 }
 
+export interface CustomerOrder {
+  id: number;
+  orderNumber: string;
+  totalAmount: number;
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface PaginatedWishList {
   items: CustomerWishList[];
+  totalCount: number;
+  currentPage: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export interface PaginatedOrders {
+  items: CustomerOrder[];
   totalCount: number;
   currentPage: number;
   pageSize: number;
@@ -70,6 +101,10 @@ export interface GetCustomerWishList {
 
 export interface GetCustomerAddress {
   customerAddress?: CustomerAddress[];
+}
+
+export interface GetCustomerOrders {
+  customerOrders?: PaginatedOrders;
 }
 
 export interface EditAddressData {

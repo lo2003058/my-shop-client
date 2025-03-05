@@ -1,28 +1,80 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import LoadingComponent from "@/components/common/loadingComponent";
-import Link from 'next/link';
+import Link from "next/link";
+import Swal from "sweetalert2";
+import { useQuery } from "@apollo/client";
+import { GET_CUSTOMER_ORDERS } from "@/graphql/account/queries";
+import { GetCustomerOrders } from "@/types/customer/types";
+import PaginationButtons from '@/components/common/paginationButtons';
 
 interface OrderComponentProps {
-  customerOrder?: {
+  customer?: {
     id: number;
-    orderNumber: string;
-  }[];
+  };
 }
 
-const OrderComponent: React.FC<OrderComponentProps> = ({ customerOrder }) => {
+const OrderComponent: React.FC<OrderComponentProps> = ({ customer }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [customerId, setCustomerId] = useState<number | undefined>();
+  const [page, setPage] = useState(1);
+  const pageSize = 4;
 
   useEffect(() => {
     if (status === "loading") return; // Do nothing while loading
     if (!session) router.push("/auth/signin"); // Redirect if not authenticated
+    if (customer?.id) {
+      // Convert to number if needed (or keep as string if your schema expects a string)
+      const idAsNumber = Number(customer.id);
+      setCustomerId(idAsNumber);
+    }
   }, [session, status, router]);
 
-  if (status === "loading") {
+  const { data, loading, error, refetch } = useQuery<GetCustomerOrders>(
+    GET_CUSTOMER_ORDERS,
+    {
+      variables: { customerId, page, pageSize },
+      context: {
+        headers: { Authorization: `Bearer ${session?.accessToken}` },
+      },
+      fetchPolicy: "network-only",
+    },
+  );
+
+  if (status === "loading" || loading) {
     return <LoadingComponent />;
   }
+
+  // If the query has an error, show it
+  if (error) {
+    console.log("error: ", error);
+    Swal.fire({
+      title: "Error",
+      text: error.message,
+      icon: "error",
+      showCancelButton: false,
+    });
+  }
+
+  const customerOrders = data?.customerOrders;
+  const items = customerOrders?.items ?? [];
+  const totalPages = customerOrders?.totalPages ?? 1;
+
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
+      refetch({ page: page + 1, pageSize });
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+      refetch({ page: page - 1, pageSize });
+    }
+  };
 
   return (
     <div className={`h-screen`}>
@@ -30,13 +82,20 @@ const OrderComponent: React.FC<OrderComponentProps> = ({ customerOrder }) => {
         <h2 className="text-2xl font-bold text-black">Order</h2>
       </div>
       <div className={`text-black`}>
-        {customerOrder && customerOrder.length > 0 ? (
+        {items && items.length > 0 ? (
           <>
-            {customerOrder.map((order) => (
+            {items.map((order) => (
               <div key={order.id} className="border p-4 my-4">
                 <p className="text-lg font-semibold">{order.orderNumber}</p>
               </div>
             ))}
+
+            <PaginationButtons
+              currentPage={page}
+              totalPages={totalPages}
+              onNextPage={handleNextPage}
+              onPrevPage={handlePrevPage}
+            />
           </>
         ) : (
           <div className="flex flex-col items-center justify-center mt-20">

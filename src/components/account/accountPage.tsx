@@ -79,7 +79,7 @@ const AccountPage: React.FC = () => {
       case "General":
         return <GeneralComponent customer={customer} />;
       case "Order":
-        return <OrderComponent customerOrder={[]} />;
+        return <OrderComponent customer={customer} />;
       case "Address":
         return <AddressComponent customer={customer} />;
       case "Wishlist":

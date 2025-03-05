@@ -30,3 +30,4 @@ export interface GetProductForClient {
 export interface GetProducts {
   products: Product[];
 }
+

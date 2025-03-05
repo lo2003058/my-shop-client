@@ -30,5 +30,5 @@ export async function middleware(request: NextRequest): Promise<NextResponse> {
 
 // Only match routes that need auth protection
 export const config = {
-  matcher: ["/account/:path*"],
+  matcher: ["/account/:path*", "/checkout"],
 };

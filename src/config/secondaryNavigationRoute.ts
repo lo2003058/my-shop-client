@@ -12,11 +12,11 @@ const secondaryNavigation: SecondaryNavigationItem[] = [
     href: "/account",
     icon: faUser,
   },
-  {
-    name: "Order",
-    href: "/order",
-    icon: faBox,
-  },
+  // {
+  //   name: "Order",
+  //   href: "/order",
+  //   icon: faBox,
+  // },
   {
     name: "Address",
     href: "/account/address",

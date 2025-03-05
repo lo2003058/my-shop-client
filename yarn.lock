@@ -917,6 +917,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@stripe/react-stripe-js@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@stripe/react-stripe-js@npm:3.1.1"
+  dependencies:
+    prop-types: ^15.7.2
+  peerDependencies:
+    "@stripe/stripe-js": ^1.44.1 || ^2.0.0 || ^3.0.0 || ^4.0.0 || ^5.0.0
+    react: ">=16.8.0 <20.0.0"
+    react-dom: ">=16.8.0 <20.0.0"
+  checksum: ede063f4250892c79fbd65169ddbb2c57ab841730c994e47afd52f99c6bedfdb98327538f618beb5f2b8d50b80672856c71441707ece265b9a1a44f6fe56ae07
+  languageName: node
+  linkType: hard
+
+"@stripe/stripe-js@npm:^5.6.0":
+  version: 5.6.0
+  resolution: "@stripe/stripe-js@npm:5.6.0"
+  checksum: eb398d043a95b645a12d11190803099de25f0c659d625af2fd8d105f586e9c9bb281c79e7d5ebdb79016023b5592b9090dfe369070e02e41d430fe8f813afaca
+  languageName: node
+  linkType: hard
+
 "@swc/counter@npm:0.1.3":
   version: 0.1.3
   resolution: "@swc/counter@npm:0.1.3"
@@ -3698,6 +3718,8 @@ __metadata:
     "@prisma/client": ^6.0.1
     "@react-google-maps/api": ^2.20.5
     "@reduxjs/toolkit": ^2.4.0
+    "@stripe/react-stripe-js": ^3.1.1
+    "@stripe/stripe-js": ^5.6.0
     "@types/bcrypt": ^5.0.2
     "@types/google.maps": ^3.58.1
     "@types/node": ^22.10.1

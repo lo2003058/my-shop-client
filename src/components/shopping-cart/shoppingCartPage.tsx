@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrashAlt,
-  faQuestionCircle,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
@@ -31,10 +30,6 @@ const ShoppingCartPage: React.FC = () => {
     dispatch(removeItem(id));
   };
 
-  // const handleClearCart = () => {
-  //     dispatch(clearCart());
-  // };
-
   // Access authentication state
   const { data: session } = useSession();
 
@@ -44,8 +39,7 @@ const ShoppingCartPage: React.FC = () => {
       router.push("/auth/signin");
       return;
     }
-    // Add your checkout logic here
-    console.log("Proceed to checkout");
+    router.push("/checkout");
   };
 
   return (
@@ -159,63 +153,18 @@ const ShoppingCartPage: React.FC = () => {
             </h2>
 
             <dl className="mt-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <dt className="text-sm text-gray-600">Subtotal</dt>
-                <dd className="text-sm font-medium text-gray-900">
-                  ${totalPrice.toFixed(2)}
-                </dd>
+              <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <dt className="text-sm text-gray-600">
+                  Add your Shipping address at checkout to see shipping charges.
+                </dt>
               </div>
-              {totalPrice > 0 && (
-                <>
-                  <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                    <dt className="flex items-center text-sm text-gray-600">
-                      <span>Shipping estimate</span>
-                      <a
-                        href="#"
-                        className="ml-2 shrink-0 text-gray-400 hover:text-gray-500"
-                      >
-                        <span className="sr-only">
-                          Learn more about how shipping is calculated
-                        </span>
-                        <FontAwesomeIcon
-                          icon={faQuestionCircle}
-                          className="h-5 w-5"
-                        />
-                      </a>
-                    </dt>
-                    <dd className="text-sm font-medium text-gray-900">$5.00</dd>
-                  </div>
-                  <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                    <dt className="flex text-sm text-gray-600">
-                      <span>Tax estimate</span>
-                      <a
-                        href="#"
-                        className="ml-2 shrink-0 text-gray-400 hover:text-gray-500"
-                      >
-                        <span className="sr-only">
-                          Learn more about how tax is calculated
-                        </span>
-                        <FontAwesomeIcon
-                          icon={faQuestionCircle}
-                          className="h-5 w-5"
-                        />
-                      </a>
-                    </dt>
-                    <dd className="text-sm font-medium text-gray-900">
-                      ${`${((totalPrice + 5) * 0.13).toFixed(2)}`}
-                    </dd>
-                  </div>
-                </>
-              )}
 
               <div className="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt className="text-base font-medium text-gray-900">
                   Order total
                 </dt>
                 <dd className="text-base font-medium text-gray-900">
-                  {totalPrice > 0
-                    ? `$${(totalPrice + 5 + (totalPrice + 5) * 0.13).toFixed(2)}`
-                    : "$0.00"}
+                  {totalPrice > 0 ? `$${totalPrice.toFixed(2)}` : "$0.00"}
                 </dd>
               </div>
             </dl>

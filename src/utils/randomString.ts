@@ -7,7 +7,7 @@
 //    { value: "Never gonna say goodbye", weight: 0.166 },
 //    { value: "Never gonna tell a lie and hurt you", weight: 0.166 },
 //    { value: "Hi, Im Yin", weight: 0.003 },
-//    { value: "OK, You found discount code: LOVE_VEDA", weight: 0.001 },
+//    { value: "OK, You found discount code: LOVE-VEDA", weight: 0.001 },
 //  ]
 
 export const randomString = (arr: { value: string; weight: number }[]) => {

@@ -87,3 +87,36 @@ export const GET_CUSTOMER_ADDRESSES = gql`
         }
     }
 `;
+
+
+export const GET_CUSTOMER_ORDERS = gql`
+    query GetCustomerOrders($customerId: Int!) {
+        customerOrders(customerId: $customerId) {
+            id
+            orderNumber
+            totalAmount
+            status
+            createdAt
+            updatedAt
+            orderItems {
+                id
+                productId
+                product {
+                    id
+                    name
+                    description
+                    price
+                    stock
+                    isVirtual
+                    imageUrl
+                    createdAt
+                    updatedAt
+                }
+                quantity
+                price
+                createdAt
+                updatedAt
+            }
+        }
+    }
+`;
