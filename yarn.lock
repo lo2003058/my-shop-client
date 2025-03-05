@@ -1769,6 +1769,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"country-list@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "country-list@npm:2.3.0"
+  checksum: 91844d3640148cc04488fbbc29e46910018488d112ac8820be7cf7da5fde3aff354de5d89fe1fd4f20b52dcc7a991598cbe345e41ebb7f4397ab1549ac4651ec
+  languageName: node
+  linkType: hard
+
 "cross-spawn@npm:^7.0.0, cross-spawn@npm:^7.0.6":
   version: 7.0.6
   resolution: "cross-spawn@npm:7.0.6"
@@ -3727,6 +3734,7 @@ __metadata:
     "@types/react-dom": ^18
     "@vercel/speed-insights": ^1.1.0
     bcrypt: ^5.1.1
+    country-list: ^2.3.0
     eslint: ^9.16.0
     eslint-config-next: ^15.0.3
     eslint-config-prettier: ^9.1.0
