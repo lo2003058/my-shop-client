@@ -33,7 +33,6 @@
       "node_modules/@type",
       "./node_modules/@types",
       "./types",
-      "./src/types"
     ]
   },
   "include": [
