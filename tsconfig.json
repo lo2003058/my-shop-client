@@ -32,7 +32,8 @@
     "typeRoots": [
       "node_modules/@type",
       "./node_modules/@types",
-      "./types"
+      "./types",
+      "./src/types"
     ]
   },
   "include": [
