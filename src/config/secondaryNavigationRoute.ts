@@ -1,7 +1,6 @@
 import { SecondaryNavigationItem } from "@/types/customer/types";
 import {
   faAddressBook,
-  faBox,
   faHeart,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
