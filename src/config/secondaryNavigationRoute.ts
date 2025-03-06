@@ -1,6 +1,7 @@
 import { SecondaryNavigationItem } from "@/types/customer/types";
 import {
   faAddressBook,
+  faBox,
   faHeart,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
@@ -11,11 +12,11 @@ const secondaryNavigation: SecondaryNavigationItem[] = [
     href: "/account",
     icon: faUser,
   },
-  // {
-  //   name: "Order",
-  //   href: "/order",
-  //   icon: faBox,
-  // },
+  {
+    name: "Order",
+    href: "/order",
+    icon: faBox,
+  },
   {
     name: "Address",
     href: "/account/address",

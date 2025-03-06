@@ -1,6 +1,8 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { Tier } from "@/types/tier/types";
 import { Product } from "@/types/product/types";
+import { OrderAddress, OrderProduct } from "@/types/order/types";
+import { Payment } from "@/types/payment/types";
 
 export interface SecondaryNavigationItem {
   name: string;
@@ -55,11 +57,17 @@ export interface CustomerWishList {
 
 export interface CustomerOrder {
   id: number;
-  orderNumber: string;
-  totalAmount: number;
+  tax: number;
+  shippingFee: number;
+  originalTotal: number;
+  total: number;
   status: string;
+  pointsEarned: number;
   createdAt: Date;
   updatedAt: Date;
+  orderProduct: OrderProduct[];
+  payment?: Payment;
+  orderAddress: OrderAddress;
 }
 
 export interface PaginatedWishList {
@@ -104,7 +112,7 @@ export interface GetCustomerAddress {
 }
 
 export interface GetCustomerOrders {
-  customerOrders?: PaginatedOrders;
+  orders?: PaginatedOrders;
 }
 
 export interface EditAddressData {

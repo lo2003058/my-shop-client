@@ -49,6 +49,22 @@ export const GET_PRODUCTS = gql`
   }
 `;
 
+export const GET_RECOMMEND_PRODUCTS = gql`
+    query GetRecommendProducts($includeHidden: Boolean = false) {
+        recommendProducts(includeHidden: $includeHidden) {
+            id
+            name
+            description
+            price
+            stock
+            isVirtual
+            imageUrl
+            createdAt
+            updatedAt
+        }
+    }
+`;
+
 export const GET_PRODUCTS_PAGINATED = gql`
   query GetProductsPaginated(
     $page: Int!

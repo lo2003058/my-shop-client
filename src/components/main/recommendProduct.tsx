@@ -1,27 +1,34 @@
-"use client"; // <-- important for any file that uses `useQuery`
+"use client";
 
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useQuery } from "@apollo/client";
-import { GetProducts, Product } from "@/types/product/types";
-import { GET_PRODUCTS } from "@/graphql/products/queries";
+import { GetRecommendProducts } from "@/types/product/types";
+import { GET_RECOMMEND_PRODUCTS } from "@/graphql/products/queries";
+
+const MAX_RECOMMEND_PRODUCTS = 5;
 
 const RecommendProduct: React.FC = () => {
-  const { loading, error, data } = useQuery<GetProducts>(GET_PRODUCTS, {
-    variables: { limit: 4 }, // For example, fetch 4 products
-  });
+  const { loading, error, data } = useQuery<GetRecommendProducts>(
+    GET_RECOMMEND_PRODUCTS,
+    {
+      variables: { limit: MAX_RECOMMEND_PRODUCTS },
+    },
+  );
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
-  if (!data || data.products.length === 0) return <p>No products found.</p>;
 
-  const recommendProducts: Product[] = data.products.slice(0, 4);
+  const recommendProducts = data?.recommendProducts.slice(
+    0,
+    MAX_RECOMMEND_PRODUCTS,
+  );
 
   return (
     <div className="py-16 px-4 sm:px-6 lg:px-8">
       {/* Related Products */}
-      {recommendProducts.length > 0 && (
+      {recommendProducts && recommendProducts.length > 0 && (
         <section aria-labelledby="related-heading" className="mt-24">
           <h2
             id="related-heading"
@@ -30,7 +37,9 @@ const RecommendProduct: React.FC = () => {
             You may also like&hellip;
           </h2>
 
-          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <div
+            className={`mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5`}
+          >
             {recommendProducts.map((product) => (
               <div key={product.id} className="group relative">
                 <Image

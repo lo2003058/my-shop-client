@@ -88,35 +88,51 @@ export const GET_CUSTOMER_ADDRESSES = gql`
     }
 `;
 
-
 export const GET_CUSTOMER_ORDERS = gql`
-    query GetCustomerOrders($customerId: Int!) {
-        customerOrders(customerId: $customerId) {
-            id
-            orderNumber
-            totalAmount
-            status
-            createdAt
-            updatedAt
-            orderItems {
+    query GetCustomerOrders($customerId: Int!, $page: Int!, $pageSize: Int!, $orderStatus: String!) {
+        orders(customerId: $customerId, page: $page, pageSize: $pageSize, orderStatus: $orderStatus) {
+            items {
                 id
-                productId
-                product {
-                    id
-                    name
-                    description
-                    price
-                    stock
-                    isVirtual
-                    imageUrl
-                    createdAt
-                    updatedAt
+                tax
+                shippingFee
+                originalTotal
+                total
+                status
+                pointsEarned
+                orderProduct {
+                    product {
+                        id
+                        name
+                        price
+                        stock
+                        isVirtual
+                        imageUrl
+                        createdAt
+                        updatedAt
+                    }
+                    quantity
                 }
-                quantity
-                price
+                orderAddress{
+                    name
+                    phone
+                    address
+                    address2
+                    city
+                    state
+                    country
+                    zipCode
+                }
+                payment{
+                    method
+                    status
+                    createdAt
+                }
                 createdAt
-                updatedAt
             }
+            totalCount
+            currentPage
+            pageSize
+            totalPages
         }
     }
 `;

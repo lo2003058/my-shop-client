@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import SecondaryNavigation from "@/components/account/secondaryNavigation";
 import { secondaryNavigationRoute } from "@/config/secondaryNavigationRoute";
@@ -62,15 +62,9 @@ const AccountPage: React.FC = () => {
       text: error.message,
       icon: "error",
       showCancelButton: false,
-    }).then((res) => {
-      if (res.isConfirmed) {
-        signOut();
-        router.push("/auth/signin");
-      }
     });
   }
 
-  // Now you can safely use `data` since the query won’t run until `customerId` is ready
   const customer = data?.customer;
 
   // Simple component selector

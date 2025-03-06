@@ -31,3 +31,6 @@ export interface GetProducts {
   products: Product[];
 }
 
+export interface GetRecommendProducts {
+  recommendProducts: Product[];
+}

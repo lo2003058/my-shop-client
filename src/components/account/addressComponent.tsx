@@ -206,10 +206,12 @@ const AddressComponent: React.FC<AddressComponentProps> = ({ customer }) => {
   const customerAddress = data?.customerAddress;
 
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen">
       {/* Top bar with title + add button */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-black">Address</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-black">Address</h2>
+        </div>
         {/* Only show "Add" if addresses exist, or the user is loaded */}
         {customerAddress && customerAddress.length > 0 && (
           // Show tooltip if max address limit reached
