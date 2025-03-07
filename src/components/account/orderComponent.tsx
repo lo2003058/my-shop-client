@@ -109,54 +109,72 @@ const OrderComponent: React.FC<OrderComponentProps> = ({ customer }) => {
     refetch({ customerId, page: 1, pageSize, orderStatus: status });
   };
 
+  const orderStatusBadge = [
+    {
+      name: "All",
+      value: "all",
+      color: "blue",
+    },
+    {
+      name: "Pending",
+      value: "pending",
+      color: "yellow",
+    },
+    {
+      name: "Completed",
+      value: "completed",
+      color: "green",
+    },
+    {
+      name: "Delivered",
+      value: "delivered",
+      color: "violet",
+    },
+    {
+      name: "Cancelled",
+      value: "cancelled",
+      color: "red",
+    },
+  ];
+
   return (
     <div className={`h-screen`}>
       <h2 className="text-2xl font-bold text-black my-2">Order</h2>
       <div className={`text-black max-w-6xl mx-auto`}>
         {/* Add the filter badges */}
         <div className="flex space-x-2 mb-4">
-          {/* "All" badge to reset the filter */}
-          <span
-            onClick={() => handleStatusFilter("all")}
-            className={`cursor-pointer inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-              orderStatus === "all"
-                ? "bg-blue-100 text-blue-700 ring-1 ring-inset ring-blue-500/10"
-                : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
-            }`}
-          >
-            All
-          </span>
-          {/* "Pending" badge */}
-          <span
-            onClick={() => handleStatusFilter("pending")}
-            className={`cursor-pointer inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-              orderStatus === "pending"
-                ? "bg-yellow-100 text-yellow-700 ring-1 ring-inset ring-yellow-500/10"
-                : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
-            }`}
-          >
-            Pending
-          </span>
-          <span
-            onClick={() => handleStatusFilter("delivered")}
-            className={`cursor-pointer inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-              orderStatus === "delivered"
-                ? "bg-green-100 text-green-700 ring-1 ring-inset ring-green-500/10"
-                : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
-            }`}
-          >
-            Delivered
-          </span>
-          <span
-            onClick={() => handleStatusFilter("cancelled")}
-            className={`cursor-pointer inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ${
-              orderStatus === "cancelled"
-                ? "bg-red-100 text-red-700 ring-1 ring-inset ring-red-500/10"
-                : "bg-gray-50 text-gray-600 ring-1 ring-inset ring-gray-500/10"
-            }`}
-          >
-            Cancelled
-          </span>
+          {orderStatusBadge.map((badge) => {
+            const isActive = orderStatus === badge.value;
+
+            const baseStyles = [
+              "px-3",
+              "py-1",
+              "rounded-full",
+              "text-sm",
+              "cursor-pointer",
+              "border",
+              "focus:outline-none",
+              "transition-colors",
+              "duration-200",
+              "select-none",
+            ];
+
+            const statusStyles = isActive
+              ? `bg-${badge.color}-100 text-${badge.color}-700`
+              : `bg-${badge.color}-500 text-${badge.color}-700`;
+
+            return (
+              <button
+                key={badge.value}
+                onClick={() => handleStatusFilter(badge.value)}
+                className={[...baseStyles, statusStyles].join(" ")}
+                aria-pressed={isActive}
+                type="button"
+              >
+                {badge.name}
+              </button>
+            );
+          })}
         </div>
 
         {items && items.length > 0 ? (
