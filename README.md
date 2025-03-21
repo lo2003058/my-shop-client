@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# My Shop Client
 
-## Getting Started
+A modern e-commerce frontend application built with Next.js, React, and TypeScript. This project provides a user-friendly shopping experience with features like user authentication, shopping cart, order management, address management, and more.
 
-First, run the development server:
+## Features
+
+- **User Authentication**: Secure login system using NextAuth
+- **Shopping Cart**: Add, remove, and update product quantities
+- **Account Management**:
+    - User profile management
+    - Order history tracking
+    - Address management (up to 5 addresses with default setting)
+    - Wishlist functionality
+- **Google Maps Integration**: For address selection and validation
+- **Responsive Design**: Works on mobile, tablet, and desktop devices
+- **Secure Payments**: Integration with Stripe payment gateway
+
+## Technologies
+
+- Next.js 15
+- React 18
+- TypeScript
+- Redux Toolkit (state management)
+- Tailwind CSS (styling)
+- NextAuth (authentication)
+- Stripe (payment processing)
+- FontAwesome (icons)
+- SweetAlert2 (notifications)
+- React Hook Form & Yup (form validation)
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone the repository
+git clone <repository-url>
+cd my-shop-client
+
+# Install dependencies
+yarn install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Environment Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Create a `.env.local` file in the root directory with the following variables:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+NODE_ENV=development
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key"
+NEXT_PUBLIC_API_URL="http://localhost:8080"
+NEXT_PUBLIC_GOOGLE_MAP_API_KEY="your-google-map-api-key"
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="your-stripe-key"
+```
 
-## Learn More
+## Usage
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Run development server
+yarn dev_client
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Build for production
+yarn build_next
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start production server
+yarn start
+```
 
-## Deploy on Vercel
+## Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `src/components/`: UI components
+- `src/hooks/`: Custom React hooks
+- `src/redux/`: Redux store configuration and slices
+- `src/types/`: TypeScript type definitions
+- `src/config/`: Application configuration
+- `src/pages/`: Next.js pages
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Backend API
+
+This frontend application connects to a backend API. By default, it connects to `http://localhost:8080` in development mode. You can configure the backend URL in the `.env.local` file.
